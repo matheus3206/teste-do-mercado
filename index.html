@@ -1,0 +1,97 @@
+<html ng-app="mercado">
+<meta charset="UTF-8">
+<head>
+	<title>teste-do-mercado</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+	<script src="lib/angular/angular.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/controllers/mercadoCtrl.js"></script>
+</head>
+<body ng-controller="mercadoCtrl">
+	<div class="jumbotron">
+		<h2 class="titulo">Teste do Mercado</h2>
+	<div class="menuTabela">
+		<div class="col-md-6">
+			<button ng-click="setCompra()" ng-disabled="isCompra()" class="btn btn-default btn-block">Compra</button>
+		</div>
+		<div class="col-md-6">
+			<button ng-click="setVenda()" ng-disabled="!isCompra()" class="btn btn-default btn-block">Venda</button>
+		</div>
+	</div>
+		<div class="alinha">		
+				<table ng-if="isCompra()" class="table table-striped">
+					<tr>
+						<th>Código</th>
+						<th>Tipo Mercadoria</th>
+						<th>Nome</th>
+						<th>Qtd</th>
+						<th>Preço</th>
+						<th>Tipo Negócio</th>
+					</tr>
+					<tr ng-repeat="mercadoria in mercadorias track by $index" ng-if="mercadoria.negocios!='Venda'">
+						<td>{{mercadoria.codigo}}</td>
+						<td>{{mercadoria.tipom}}</td>
+						<td>{{mercadoria.nome}}</td>
+						<td>{{mercadoria.qtd}}</td>
+						<td>{{mercadoria.preco | currency}}</td>
+						<td>{{mercadoria.negocios}}</td>
+					</tr>
+				</table>
+				</hr>
+				<table ng-if="!isCompra()" class="table table-striped">
+					<tr>
+						<th>Código</th>
+						<th>Tipo Mercadoria</th>
+						<th>Nome</th>
+						<th>Qtd</th>
+						<th>Preço</th>
+						<th>Tipo Negócio</th>
+					</tr>
+					<tr ng-repeat="mercadoria in mercadorias track by $index" ng-if="mercadoria.negocios!='Compra'">
+						<td>{{mercadoria.codigo}}</td>
+						<td>{{mercadoria.tipom}}</td>
+						<td>{{mercadoria.nome}}</td>
+						<td>{{mercadoria.qtd}}</td>
+						<td>{{mercadoria.preco | currency}}</td>
+						<td>{{mercadoria.negocios}}</td>
+					</tr>
+				</table>
+				</hr>
+
+			<form name="formMercadoria">
+				<input name="codigo" class="form-control" type="number" ng-model="mercadoria.codigo" placeholder="Código" ng-required="true"/>
+				<input name="tipom" class="form-control" type="text" ng-model="mercadoria.tipom"placeholder="Tipo Mercadoria" ng-required="true"/>
+				<input name="nome" class="form-control" type="text" ng-model="mercadoria.nome" placeholder="Nome" ng-required="true"/>
+				<input name="qtd" class="form-control" type="number" ng-model="mercadoria.qtd" placeholder="Quantidade" ng-required="true"/>
+				<input name="preco" class="form-control" type="number" ng-model="mercadoria.preco" placeholder="Preço" ng-required="true"/>
+				<select name="negocios" class="form-control" ng-model="mercadoria.negocios" ng-required="true">
+					<option value="">Selecione o tipo do negócio</otpion>
+					<option value="Compra">Compra</option>
+					<option value="Venda">Venda</option>
+				</select>
+			</form>
+			<div ng-show="formMercadoria.codigo.$invalid && formMercadoria.codigo.$dirty" class="alert alert-danger">
+				Preencha o código!
+			</div>
+			<div ng-show="formMercadoria.tipom.$invalid && formMercadoria.tipom.$dirty" class="alert alert-danger">
+				Preencha o tipo mercadoria!
+			</div>
+			<div ng-show="formMercadoria.nome.$invalid && formMercadoria.nome.$dirty" class="alert alert-danger">
+				Preencha o nome!
+			</div>
+			<div ng-show="formMercadoria.qtd.$invalid && formMercadoria.qtd.$dirty" class="alert alert-danger">
+				Preencha a quantidade!
+			</div>
+			<div ng-show="formMercadoria.preco.$invalid && formMercadoria.preco.$dirty" class="alert alert-danger">
+				Preencha o preço!
+			</div>
+			<div ng-show="formMercadoria.negocios.$invalid && formMercadoria.negocios	.$dirty" class="alert alert-danger">
+				Preencha o tipo do negócio!
+			</div>
+			<button class="btn btn-primary btn-block" ng-click="adicionarProduto(mercadoria)" ng-disabled="formMercadoria.$invalid">Adicionar Produto</button>
+		</div>
+	</div>
+	<div ng-include="'view/footer.html'"></div>
+</body>
+</html>
